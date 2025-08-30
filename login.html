@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            background-image: url("1.jpg");
+            background-size: cover;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+            margin-top: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name">
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob">
+                <div class="error-message"></div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+      
+        document.getElementById("registrationForm").addEventListener("submit", function (e) {
+            e.preventDefault(); 
+
+            
+            const errorMessages = document.querySelectorAll(".error-message");
+            errorMessages.forEach((message) => {
+                message.style.display = "none";
+            });
+
+            let isValid = true;
+
+            
+            const nameInput = document.getElementById("name");
+            const nameValue = nameInput.value.trim();
+            const nameRegex = /^[a-zA-Z0-9]+$/; 
+            if (nameValue === "" || nameValue.length < 3 || nameRegex.test(nameValue) === false) {
+                showError(nameInput, "Name must be at least 3 alphanumeric characters");
+                isValid = false;
+            }
+
+            
+            const emailInput = document.getElementById("email");
+            const emailValue = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(emailValue) === false) {
+                showError(emailInput, "Invalid email address");
+                isValid = false;
+            }
+
+            
+            const passwordInput = document.getElementById("password");
+            const passwordValue = passwordInput.value.trim();
+            if (passwordValue.length < 6) {
+                showError(passwordInput, "Password must be at least 6 characters long");
+                isValid = false;
+            }
+
+            
+            const dobInput = document.getElementById("dob");
+            const dobValue = dobInput.value;
+            if (dobValue === "") {
+                showError(dobInput, "Date of birth is required");
+                isValid = false;
+            } else {
+                const dobDate = new Date(dobValue);
+                const today = new Date();
+                if (dobDate >= today) {
+                    showError(dobInput, "Date of birth must be in the past");
+                    isValid = false;
+                }
+            }
+
+            
+            if (isValid === true) {
+                alert("Form submitted successfully!");
+                
+            }
+        });
+
+        // 
+        function showError(input, message) {
+            const formGroup = input.parentElement;
+            const errorMessage = formGroup.querySelector(".error-message");
+            errorMessage.innerText = message;
+            errorMessage.style.display = "block";
+        }
+    </script>
+</body>
+</html>
+
